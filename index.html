@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter & Validator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="logo">JSON Formatter & Validator</h1>
+                    <div class="header-controls">
+                        <button id="themeToggle" class="btn btn--secondary btn--sm">
+                            <span id="themeIcon">🌙</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- Controls Panel -->
+                <div class="controls-panel">
+                    <div class="controls-group">
+                        <button id="formatBtn" class="btn btn--primary">Format</button>
+                        <button id="validateBtn" class="btn btn--secondary">Validate</button>
+                        <button id="minifyBtn" class="btn btn--secondary">Minify</button>
+                        <button id="clearBtn" class="btn btn--outline">Clear</button>
+                    </div>
+                    <div class="controls-group">
+                        <button id="loadSampleBtn" class="btn btn--outline btn--sm">Load Sample</button>
+                        <input type="file" id="fileInput" accept=".json" style="display: none;">
+                        <button id="uploadBtn" class="btn btn--outline btn--sm">Upload File</button>
+                        <select id="indentSelect" class="form-control" style="width: auto; display: inline-block;">
+                            <option value="2">2 Spaces</option>
+                            <option value="4" selected>4 Spaces</option>
+                            <option value="\t">Tabs</option>
+                        </select>
+                        <button id="treeToggle" class="btn btn--outline btn--sm">Tree View</button>
+                    </div>
+                </div>
+
+                <!-- Main Editor Area -->
+                <div class="editor-container">
+                    <div class="input-section">
+                        <div class="section-header">
+                            <h3>JSON Input</h3>
+                            <div class="validation-status" id="validationStatus"></div>
+                        </div>
+                        <div class="editor-wrapper">
+                            <textarea id="jsonInput" class="json-editor" placeholder="Paste your JSON here..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="output-section">
+                        <div class="section-header">
+                            <h3>Formatted Output</h3>
+                            <div class="output-controls">
+                                <button id="copyBtn" class="btn btn--outline btn--sm">Copy</button>
+                                <button id="downloadBtn" class="btn btn--outline btn--sm">Download</button>
+                            </div>
+                        </div>
+                        <div class="editor-wrapper">
+                            <pre id="jsonOutput" class="json-output"></pre>
+                            <div id="treeView" class="tree-view hidden"></div>
+                        </div>
+                        <div id="errorDisplay" class="error-display hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Statistics Panel -->
+                <div class="stats-panel" id="statsPanel">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Objects:</span>
+                            <span class="stat-value" id="objectCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Arrays:</span>
+                            <span class="stat-value" id="arrayCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Strings:</span>
+                            <span class="stat-value" id="stringCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Numbers:</span>
+                            <span class="stat-value" id="numberCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Size:</span>
+                            <span class="stat-value" id="sizeCount">0 bytes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Converter Tabs -->
+                <div class="converter-section">
+                    <div class="tab-header">
+                        <h3>JSON Converters</h3>
+                        <div class="tab-buttons">
+                            <button class="tab-btn active" data-tab="xml">JSON to XML</button>
+                            <button class="tab-btn" data-tab="csv">JSON to CSV</button>
+                            <button class="tab-btn" data-tab="yaml">JSON to YAML</button>
+                        </div>
+                    </div>
+
+                    <div class="tab-content">
+                        <div id="xmlTab" class="tab-panel active">
+                            <div class="converter-output">
+                                <div class="section-header">
+                                    <h4>XML Output</h4>
+                                    <div class="output-controls">
+                                        <button id="copyXmlBtn" class="btn btn--outline btn--sm">Copy XML</button>
+                                        <button id="downloadXmlBtn" class="btn btn--outline btn--sm">Download XML</button>
+                                    </div>
+                                </div>
+                                <pre id="xmlOutput" class="converter-result"></pre>
+                            </div>
+                        </div>
+
+                        <div id="csvTab" class="tab-panel">
+                            <div class="converter-output">
+                                <div class="section-header">
+                                    <h4>CSV Output</h4>
+                                    <div class="output-controls">
+                                        <button id="copyCsvBtn" class="btn btn--outline btn--sm">Copy CSV</button>
+                                        <button id="downloadCsvBtn" class="btn btn--outline btn--sm">Download CSV</button>
+                                    </div>
+                                </div>
+                                <pre id="csvOutput" class="converter-result"></pre>
+                            </div>
+                        </div>
+
+                        <div id="yamlTab" class="tab-panel">
+                            <div class="converter-output">
+                                <div class="section-header">
+                                    <h4>YAML Output</h4>
+                                    <div class="output-controls">
+                                        <button id="copyYamlBtn" class="btn btn--outline btn--sm">Copy YAML</button>
+                                        <button id="downloadYamlBtn" class="btn btn--outline btn--sm">Download YAML</button>
+                                    </div>
+                                </div>
+                                <pre id="yamlOutput" class="converter-result"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
